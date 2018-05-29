@@ -81,6 +81,7 @@ public class UserController {
         user.setFullname((String) jsonObject.get("fullname"));
         user.setEmail((String) jsonObject.get("email"));
         user.setRole((String) jsonObject.get("role"));
+        user.setAddress((String) jsonObject.get("address"));
 
         user = userService.create(user);
 
@@ -140,6 +141,11 @@ public class UserController {
         String role = (String) jsonObject.get("role");
         if (role != null) {
             user.setRole(role);
+        }
+
+        String address = (String) jsonObject.get("address");
+        if (address != null) {
+            user.setAddress(address);
         }
 
         user = userService.update(user);

@@ -1,0 +1,100 @@
+#article-detail-container {
+	position: fixed;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	z-index: 2000;
+	display: none;
+}
+
+#article-detail-overlay {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	background-color: rgba(255,255,255, 0.96);
+	z-index: 2001;
+}
+
+#article-detail-card {
+	box-shadow: 0 0 200px 0 rgba(0, 0, 0, 0.2);
+	position: relative;
+	background-color: white;
+	height: auto;
+	width: 700px;
+	z-index: 2002;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	display: flex;
+	flex-flow: column;
+	align-items: center;
+	padding-bottom: 50px;
+}
+
+#article-detail-container .image {
+	height: 300px;
+	width: calc(100% - 150px);
+	transform: translateY(-33%);
+	margin-bottom: -70px;
+
+	background-color: rgb(255, 45, 85);
+	box-shadow: 0 0 20px 0 rgba(0,0,0, 0.3);
+	background-image: url('http://www.tichkule.com/upload/image/home_1505296587.jpg');
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
+}
+
+#article-detail-container .name-price-container {
+	display: flex;
+	align-items: center;
+	width: 100%;
+	justify-content: space-between;
+	padding: 0 75px;
+	margin-bottom: 34px;
+	font-size: 41px;
+}
+
+
+#article-detail-container .description {
+	font-size: 16px;
+	margin-bottom: 14px;
+	padding: 0 75px 30px;
+	text-align: center;
+}
+#article-detail-container .buttons-wrapper {
+	display: flex;
+	height: auto;
+	justify-content: space-around;
+	align-items: center;
+	width: 170px;
+	font-size: 26px;
+}
+#article-detail-container .total-price {
+	display: none;
+}
+
+#article-detail-container .modify-cart-button {
+	font-size: 20px;
+	height: 40px;
+	width: 40px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 1px 0 0 1px;
+	border-radius: 40px;
+	border: 3px solid rgb(255, 45, 85);
+	color: rgb(255, 45, 85);
+}
+
+#article-detail-container .detail-minus {
+	display: none;
+}
+
+#article-detail-container .add-to-cart-button:hover {
+	background-color: rgb(255, 45, 85);
+	color: white;
+}

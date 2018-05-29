@@ -1,0 +1,52 @@
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Makeup Store</title>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+  <link rel="stylesheet" href="css/main.css"/>
+  <link rel="stylesheet" href="css/cart.css"/>
+  <link rel="stylesheet" href="css/articles.css"/>
+  <link rel="stylesheet" href="css/article-detail.css"/>
+</head>
+<body>
+<div id="header">
+  <div id="title">Makeup Store</div>
+  <div id="show-cart-button">My Cart &nbsp;&nbsp;<i class="fa fa-angle-down"></i></div>
+  <div id="cart-list">
+    <!--Dynamically generated HTML.-->
+  </div>
+</div>
+<div id="page">
+  <script
+      src="https://code.jquery.com/jquery-3.3.1.min.js"
+      integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+      crossorigin="anonymous"></script>
+  <script src="js/main.js"></script>
+  <div id="articles-container">
+    <!--Dynamically generated HTML.-->
+  </div>
+  <div id="article-detail-container">
+    <div id="article-detail-overlay"></div>
+    <div id="article-detail-card">
+      <div class="image"></div>
+      <div class="name-price-container">
+        <div class="name">
+          <!--Dynamically generated HTML.-->
+        </div>
+        <div class="price">
+          <!--Dynamically generated HTML.-->
+        </div>
+      </div>
+      <div class="description">
+        <!--Dynamically generated HTML.-->
+      </div>
+      <div class="buttons-wrapper">
+        <button class="modify-cart-button detail-minus"><i class="fa fa-minus"></i></button>
+        <span class="total-price"></span>
+        <button class="modify-cart-button detail-plus"><i class="fa fa-plus"></i></button>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

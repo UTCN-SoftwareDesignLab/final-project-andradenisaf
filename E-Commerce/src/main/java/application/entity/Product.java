@@ -15,6 +15,9 @@ public class Product {
     @Column(name = "name", nullable = false)
     private String name;
 
+    @Column(name = "description")
+    private String description;
+
     @Column(name = "company", nullable = false)
     private String company;
 
@@ -48,6 +51,14 @@ public class Product {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getCompany() { return company; }
@@ -88,6 +99,7 @@ public class Product {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("id", getId());
         jsonObject.put("name", getName());
+        jsonObject.put("description", getDescription());
         jsonObject.put("company", getCompany());
         jsonObject.put("type", getType().toJSON());
         jsonObject.put("quantity", getQuantity());

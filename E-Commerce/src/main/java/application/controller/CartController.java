@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -100,7 +101,7 @@ public class CartController {
         }
 
         Long productId = (Long) jsonObject.get("product_id");
-        Long quantity = (Long) jsonObject.get("quantity");
+        Long amount = (Long) jsonObject.get("amount");
 
         Product product = productService.findById(productId);
         if (product == null) {
@@ -108,11 +109,29 @@ public class CartController {
         }
 
         CartItem cartItem = new CartItem();
+        ArrayList<CartItem> cartItems = (ArrayList<CartItem>) cartItemService.findByCart(cart);
+        boolean shouldCreate = true;
+        if (cartItems.size() > 0) {
+            for (CartItem item: cartItems) {
+                if (item.getProduct().getId().equals(productId)) {
+                    cartItem = item;
+                    shouldCreate = false;
+                }
+            }
+        }
         cartItem.setCart(cart);
         cartItem.setProduct(product);
-        cartItem.setQuantity(quantity);
+        if (cartItem.getQuantity() == null) {
+            cartItem.setQuantity(amount);
+        } else {
+            cartItem.setQuantity(cartItem.getQuantity() + amount);
+        }
 
-        cartItem = cartItemService.create(cartItem);
+        if (shouldCreate) {
+            cartItem = cartItemService.create(cartItem);
+        } else {
+            cartItem = cartItemService.update(cartItem);
+        }
 
         return new ResponseEntity(cartItem.toJSON().toJSONString(), HttpStatus.CREATED);
     }
@@ -129,7 +148,7 @@ public class CartController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    @RequestMapping(path = "cart/checkout", method = RequestMethod.POST)
+    @RequestMapping(path = "/cart/checkout", method = RequestMethod.POST)
     public ResponseEntity checkout() {
         UserInfo userInfo = (UserInfo) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User user = userInfo.getUser();
@@ -151,7 +170,7 @@ public class CartController {
 
         order.setUser(user);
         order.setDate(new Date());
-
+        order.setTotal(0.0);
         orderService.create(order);
 
         Double price = 0.0;
@@ -162,6 +181,8 @@ public class CartController {
             orderItem.setQuantity(cartItem.getQuantity());
             orderItemService.create(orderItem);
             price += orderItem.getProduct().getPrice() * orderItem.getQuantity();
+            Product product = orderItem.getProduct();
+            product.setQuantity(product.getQuantity() - (int)(long)orderItem.getQuantity());
             cartItemService.delete(cartItem);
         }
 

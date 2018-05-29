@@ -92,6 +92,9 @@ public class ProductController {
         String image = (String) jsonObject.get("image");
         product.setImage(image);
 
+        String description = (String) jsonObject.get("description");
+        product.setDescription(description);
+
         product = productService.create(product);
 
         return new ResponseEntity(product.toJSON().toJSONString(), HttpStatus.CREATED);
@@ -172,6 +175,11 @@ public class ProductController {
         String image = (String) jsonObject.get("image");
         if (image != null) {
             product.setImage(image);
+        }
+
+        String description = (String) jsonObject.get("description");
+        if (description != null) {
+            product.setDescription(description);
         }
 
         product = productService.update(product);

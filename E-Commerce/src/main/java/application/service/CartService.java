@@ -31,14 +31,10 @@ public class CartService implements ICartService {
     @Override
     public Cart findByUser(User user) {
         Optional<Cart> optionalCart = cartRepository.findByUser(user);
-        Cart cart;
-        try {
-            cart = optionalCart.get();
-        } catch (NoSuchElementException e) {
-            e.printStackTrace();
-            return null;
+        if (optionalCart.isPresent()) {
+            return optionalCart.get();
         }
-        return cart;
+        return null;
     }
 
     @Override

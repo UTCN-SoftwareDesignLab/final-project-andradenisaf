@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Employee</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--===============================================================================================-->
+    <link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="vendor/select2/select2.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="vendor/perfect-scrollbar/perfect-scrollbar.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="css/util.css">
+    <link rel="stylesheet" type="text/css" href="css/main2.css">
+    <!--===============================================================================================-->
+
+    ﻿<style>
+    input[type=text], input[type=date], input[type=number], select {
+        width: 100%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        display: inline-block;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+
+    input[type=submit] {
+        width: 20%;
+        background-color: #4CAF50;
+        color: white;
+        padding: 14px 20px;
+        margin: 8px 0;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    input[type=submit]:hover {
+        background-color: #45a049;
+    }
+</style>
+</head>
+<body onload="loadData()">
+
+<div class="limiter">
+    <div class="container-table100">
+        <div class="wrap-table100">
+            <div class="table100 ver6 m-b-110">
+                <table data-vertable="ver6">
+                    <thead>
+                    <tr class="row100 head">
+                        <th class="column100 column1" data-column="column1">ID</th>
+                        <th class="column100 column2" data-column="column2">Name</th>
+                        <th class="column100 column3" data-column="column3">Company</th>
+                        <th class="column100 column4" data-column="column4">Type</th>
+                        <th class="column100 column5" data-column="column5">Quantity</th>
+                        <th class="column100 column6" data-column="column6">Price</th>
+                        <th class="column100 column6" data-column="column6">Description</th>
+                        <th class="column100 column8" data-column="column8">Delete</th>
+                    </tr>
+                    </thead>
+                    <tbody class="products">
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<br>
+<p style="font-size: 20px; font-family: Montserrat;">ADD PRODUCT<br><br></p>
+<div style="border-radius: 5px; padding: 20px;
+     background: #9053c7;
+     background: -webkit-linear-gradient(-135deg, #c850c0, #4158d0);
+     background: -o-linear-gradient(-135deg, #c850c0, #4158d0);
+     background: -moz-linear-gradient(-135deg, #c850c0, #4158d0);
+     background: linear-gradient(-135deg, #c850c0, #4158d0);
+     font-family: Montserrat;" id="add_product">
+    <form style="color: #ffffff">
+        ID:
+        <input type="number" name="id" value="" id="product_id">
+        <br>
+        Name:
+        <input type="text" name="name" value="" id="add_name">
+        <br>
+        Company:
+        <input type="text" name="company" value="" id="add_company">
+        <br>
+        Type:
+        <select name="type" id="add_type">
+            <option th:each="type: ${types}" th:value="${type.id}" th:text="${type.type}"></option>
+        </select>
+        <br>
+        Quantity:
+        <input type="number" name="quantity" value="" id="add_quantity">
+        <br>
+        Price:
+        <input type="number" name="price" value="" id="add_price">
+        <br>
+        Description:
+        <input type="text" name="description" value="" id="add_description">
+        <br>
+        Image:
+        <input type="text" name="image" value="" id="add_image">
+        <br>
+        <input type="submit" value="Add">
+    </form>
+</div>
+
+
+<!--===============================================================================================-->
+<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
+<!--===============================================================================================-->
+<script src="vendor/bootstrap/js/popper.js"></script>
+<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+<!--===============================================================================================-->
+<script src="vendor/select2/select2.min.js"></script>
+<!--===============================================================================================-->
+<script src="js/main2.js"></script>
+
+<script>
+    function loadData() {
+        loadProducts()
+    }
+
+    $("#add_product").submit(function (e) {
+        var productId = $("#product_id").val();
+        var name = $("#add_name").val();
+        var company = $("#add_company").val();
+        var type = $("#add_type").val();
+        var quantity = $("#add_quantity").val();
+        var price = $("#add_price").val();
+        var description = $("#add_description").val();
+        var image = $("#add_image").val();
+
+        var method;
+        var urlString;
+        if (productId.length > 0) {
+            method = "PUT";
+            urlString = "/products/" + productId;
+        } else {
+            method = "POST";
+            urlString = "/products";
+        }
+
+        if (name.length == 0)
+            name = null;
+        if (company.length == 0)
+            company = null;
+        if (type.length == 0)
+            type = null;
+        if (quantity.length == 0)
+            quantity = null;
+        if (price.length == 0)
+            price = null;
+        if (description.length == 0)
+            description = null;
+        if (image.length == 0)
+            image = null;
+
+        $.ajax({
+            type: method,
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json"
+            },
+            url: urlString,
+            data: JSON.stringify({
+                "name": name,
+                "company": company,
+                "type": parseInt(type),
+                "quantity": parseInt(quantity),
+                "price": parseFloat(price),
+                "description": description,
+                "image": image
+            }),
+            success: function () {
+                loadProducts()
+            }
+        });
+        return false;
+    });
+
+    function deleteProduct(productId) {
+        $.ajax({
+            type: "DELETE",
+            url: "/products/" + productId,
+            success: function () {
+                alert("Product deleted.")
+                loadProducts()
+            },
+            error: function (error) {
+                alert("Error deleting product: " + error)
+            }
+        })
+    }
+
+    function loadProducts() {
+        $.ajax({
+            type: "GET",
+            headers: {
+                "Accept": "application/json"
+            },
+            url: "/products",
+            success: function (data) {
+                renderProducts(data)
+            },
+            error: function (error) {
+                console.log(error)
+            }
+        });
+    }
+
+    function renderProducts(data) {
+        var html = "";
+        var products = data.products;
+        var count = products.length;
+
+        for (var i = 0; i < count; i++) {
+            var product = products[i];
+            var table_row = '<tr class="row100 body">' +
+                '<tr class="row100 body">' +
+                '<td class="column100 column1" data-column="column1">' + product.id + '</td>' +
+                '<td class="column100 column2" data-column="column2">' + product.name + '</td>' +
+                '<td class="column100 column3" data-column="column3">' + product.company + '</td>' +
+                '<td class="column100 column4" data-column="column4">' + product.type.type + '</td>' +
+                '<td class="column100 column5" data-column="column5">' + product.quantity + '</td>' +
+                '<td class="column100 column6" data-column="column6">' + product.price + '</td>' +
+                '<td class="column100 column7" data-column="column7">' + product.description + '</td>' +
+                '<td class="column100 column8" data-column="column8"><button onclick="deleteProduct(' + product.id + ')">Delete</button></td>' +
+                '</tr>';
+            html += table_row;
+        }
+
+        $(".products").html(html)
+    }
+
+
+</script>
+
+
+</body>
+</html>

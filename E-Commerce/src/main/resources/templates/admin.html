@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Administrator</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--===============================================================================================-->
+    <link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="vendor/select2/select2.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="vendor/perfect-scrollbar/perfect-scrollbar.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="css/util.css">
+    <link rel="stylesheet" type="text/css" href="css/main2.css">
+    <!--===============================================================================================-->
+
+    ﻿<style>
+    input[type=text], input[type=password], select {
+        width: 100%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        display: inline-block;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+
+    input[type=submit] {
+        width: 20%;
+        background-color: #4CAF50;
+        color: white;
+        padding: 14px 20px;
+        margin: 8px 0;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    input[type=submit]:hover {
+        background-color: #45a049;
+    }
+
+    form {
+        color: #ffffff;
+    }
+</style>
+</head>
+<body onload="loadData()">
+
+<div class="limiter">
+    <div class="container-table100">
+        <div class="wrap-table100">
+            <div class="table100 ver6 m-b-110">
+                <table data-vertable="ver6">
+                    <thead>
+                    <tr class="row100 head">
+                        <th class="column100 column1" data-column="column1">ID</th>
+                        <th class="column100 column2" data-column="column2">Username</th>
+                        <th class="column100 column3" data-column="column3">Full name</th>
+                        <th class="column100 column4" data-column="column4">Email</th>
+                        <th class="column100 column5" data-column="column5">Role</th>
+                        <th class="column100 column6" data-column="column6">Address</th>
+                        <th class="column100 column7" data-column="column7">Delete</th>
+                    </tr>
+                    </thead>
+                    <tbody class="users">
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<p style="font-size: 20px; font-family: Montserrat;">ADD USER<br><br></p>
+<div style="border-radius: 5px; padding: 20px;
+    background: #9053c7;
+    background: -webkit-linear-gradient(-135deg, #c850c0, #4158d0);
+    background: -o-linear-gradient(-135deg, #c850c0, #4158d0);
+    background: -moz-linear-gradient(-135deg, #c850c0, #4158d0);
+    background: linear-gradient(-135deg, #c850c0, #4158d0);
+    font-family: Montserrat;" id="add_user">
+    <form>
+        Username:
+        <input type="text" name="username" value="" id="username">
+        <br>
+        Password:
+        <input type="password" name="password" value="" id="password">
+        <br>
+        Full name:
+        <input type="text" name="fullname" value="" id="fullname">
+        <br>
+        Email:
+        <input type="text" name="email" value="" id="email">
+        <br>
+        Address:
+        <input type="text" name="address" value="" id="address">
+        <br>
+        Role:
+        <select name="role" id="role">
+            <option value="administrator">Administrator</option>
+            <option value="employee">Employee</option>
+            <option value="customer">Customer</option>
+        </select>
+        <br>
+        <input type="submit" value="Add">
+    </form>
+</div>
+
+
+<!--===============================================================================================-->
+<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
+<!--===============================================================================================-->
+<script src="vendor/bootstrap/js/popper.js"></script>
+<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+<!--===============================================================================================-->
+<script src="vendor/select2/select2.min.js"></script>
+<!--===============================================================================================-->
+<script src="js/main2.js"></script>
+
+<script>
+    function loadData() {
+        loadUsers()
+    }
+
+    $("#add_user").submit(function (e) {
+        var username = $("#username").val()
+        var password = $("#password").val()
+        var fullname = $("#fullname").val()
+        var email = $("#email").val()
+        var address = $("#address").val()
+        var role = $("#role").val()
+
+        console.log(role)
+
+        $.ajax({
+            type: "POST",
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json"
+            },
+            url: "/users",
+            data: JSON.stringify({
+                "username": username,
+                "password": password,
+                "fullname": fullname,
+                "email": email,
+                "address": address,
+                "role": role
+            }),
+            success: function (data) {
+                var user = data;
+                var table_row = '<tr class="row100 body">' +
+                    '<tr class="row100 body">' +
+                    '<td class="column100 column1" data-column="column1">' + user.id + '</td>' +
+                    '<td class="column100 column2" data-column="column2">' + user.username + '</td>' +
+                    '<td class="column100 column3" data-column="column3">' + user.fullname + '</td>' +
+                    '<td class="column100 column4" data-column="column4">' + user.email + '</td>' +
+                    '<td class="column100 column5" data-column="column5">' + user.role + '</td>' +
+                    '<td class="column100 column6" data-column="column6">' + user.address + '</td>' +
+                    '<td class="column100 column7" data-column="column7"><button onclick="deleteUser(' + user.id +')">Delete</button></td>' +
+                    '</tr>';
+                $(".users").append(table_row)
+            }
+        });
+
+        return false;
+    })
+
+    function loadUsers() {
+        $.ajax({
+            type: "GET",
+            headers: {
+                "Accept": "application/json"
+            },
+            url: "/users",
+            success: function (data) {
+                renderUsers(data);
+            }
+        })
+    }
+
+    function renderUsers(data) {
+        var html = "";
+        var users = data.users;
+        var count = users.length;
+
+        for (var i = 0; i < count; i++) {
+            var user = users[i];
+            var table_row = '<tr class="row100 body">' +
+                '<tr class="row100 body">' +
+                '<td class="column100 column1" data-column="column1">' + user.id + '</td>' +
+                '<td class="column100 column2" data-column="column2">' + user.username + '</td>' +
+                '<td class="column100 column3" data-column="column3">' + user.fullname + '</td>' +
+                '<td class="column100 column4" data-column="column4">' + user.email + '</td>' +
+                '<td class="column100 column5" data-column="column5">' + user.role + '</td>' +
+                '<td class="column100 column6" data-column="column6">' + user.address + '</td>' +
+                '<td class="column100 column7" data-column="column7"><button onclick="deleteUser(' + user.id +')">Delete</button></td>' +
+                '</tr>';
+            html += table_row;
+        }
+
+        $(".users").html(html)
+    }
+
+    function deleteUser(userId) {
+        $.ajax({
+            type: "DELETE",
+            url: "/users/" + userId,
+            success: function () {
+                loadUsers()
+            },
+            error: function () {
+                alert("Failed to delete user")
+            }
+        })
+    }
+</script>
+
+
+</body>
+</html>
