@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/E-Commerce.iml" filepath="$PROJECT_DIR$/E-Commerce.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/E-Commerce_main.iml" filepath="$PROJECT_DIR$/.idea/modules/E-Commerce_main.iml" group="E-Commerce" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/E-Commerce_test.iml" filepath="$PROJECT_DIR$/.idea/modules/E-Commerce_test.iml" group="E-Commerce" />
+    </modules>
+  </component>
+</project>

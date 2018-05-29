@@ -1,0 +1,46 @@
+buildscript {
+    ext {
+        springBootVersion = '2.0.1.RELEASE'
+        mySqlConnectorVersion = '5.1.36'
+    }
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.0.1.RELEASE")
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+jar {
+    baseName = 'MakeUp Shop'
+    version =  '0.1.0'
+}
+
+repositories {
+    mavenCentral()
+    jcenter()
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+dependencies {
+    compile 'org.springframework.boot:spring-boot-starter-web:' + springBootVersion
+    compile 'org.springframework.boot:spring-boot-starter-thymeleaf:' + springBootVersion
+    compile("org.springframework.boot:spring-boot-devtools")
+    compile 'org.springframework.boot:spring-boot-starter-data-jpa:' + springBootVersion
+    compile 'org.springframework.boot:spring-boot-starter-security:' + springBootVersion
+    compile 'mysql:mysql-connector-java:' + mySqlConnectorVersion
+    compile group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1'
+    testCompile 'junit:junit'
+    testCompile "org.mockito:mockito-core:1.+"
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+    testCompile("org.springframework.security:spring-security-test")
+}
